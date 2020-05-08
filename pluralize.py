@@ -72,12 +72,13 @@ def replace (word, rule):
   def replace_(match):
     result = interpolate(rule[1], match)
 
-    if not match.lastindex:
-      return restoreCase(word[match.endpos - 1], result)
+    matched_start, matched_end = match.span()
+    if matched_end == matched_start:
+      return restoreCase(word[matched_start - 1], result)
 
     return restoreCase(match.group(0), result)
     
-  return rule[0].sub(replace_, word)
+  return rule[0].sub(replace_, word, 1)
 
 # /**
 #   * Sanitize a word by passing in the word and sanitization rules.
@@ -128,7 +129,7 @@ def replaceWord (replaceMap, keepMap, rules):
 # /**
 #   * Check if a word is part of the map.
 #   */
-def checkWord (replaceMap, keepMap, rules, bool):
+def checkWord (replaceMap, keepMap, rules):
   def fun(word):
     token = word.lower()
 
@@ -169,7 +170,7 @@ plural = replaceWord(irregularSingles, irregularPlurals, pluralRules)
   #  *
   #  * @type {Function}
   #  */
-# isPlural = checkWord(irregularSingles, irregularPlurals, pluralRules)
+isPlural = checkWord(irregularSingles, irregularPlurals, pluralRules)
 
 singular = replaceWord(irregularPlurals, irregularSingles, singularRules)
 
@@ -178,9 +179,7 @@ singular = replaceWord(irregularPlurals, irregularSingles, singularRules)
 #   *
 #   * @type {Function}
 #   */
-# pluralize.isSingular = checkWord(
-#   irregularPlurals, irregularSingles, singularRules
-# )
+isSingular = checkWord(irregularPlurals, irregularSingles, singularRules)
 
 # /**
 #   * Add a pluralization rule to the collection.

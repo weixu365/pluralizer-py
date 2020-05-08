@@ -705,13 +705,9 @@ class TestPluralize(unittest.TestCase):
     for test in [*BASIC_TESTS, *PLURAL_TESTS]:
       self.assertEqual(pluralize.plural(test[0]), test[1])
 
-  # def test_methods_plural_inflect(self):
-  #   for test in [*BASIC_TESTS, *PLURAL_TESTS]:
-  #     self.assertEqual(pluralize.plural(test[0]), test[1])
-
-  # def test_methods_is_plural(self):
-  #   for test in [*BASIC_TESTS, *PLURAL_TESTS]:
-  #     self.assertTrue(pluralize.isPlural(test[1]))
+  def test_methods_is_plural(self):
+    for test in [*BASIC_TESTS, *PLURAL_TESTS]:
+      self.assertTrue(pluralize.isPlural(test[1]), f"isPlural('{test[1]}')")
 
   def test_methods_singular(self):
     for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
@@ -720,9 +716,9 @@ class TestPluralize(unittest.TestCase):
       except:
         print(f"failed to check {test[1]}")
 
-  # def test_methods_is_singular(self):
-  #   for test in [*BASIC_TESTS, SINGULAR_TESTS]:
-  #     self.assertTrue(pluralize.isSingular(test[0]))
+  def test_methods_is_singular(self):
+    for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
+      self.assertTrue(pluralize.isSingular(test[0]))
 
   # describe('automatically convert', function () {
   #   describe('plural', function () {
