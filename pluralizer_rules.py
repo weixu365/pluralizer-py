@@ -1,231 +1,5 @@
 import re
 
-# Rule storage - pluralize and singularize need to be run sequentially,
-# while other rules can be optimized using an object for instant lookups.
-pluralRules = []
-singularRules = []
-uncountables = {}
-irregularPlurals = {}
-irregularSingles = {}
-
-# /**
-#   * Sanitize a pluralization rule to a usable regular expression.
-#   *
-#   * @param  {(RegExp|string)} rule
-#   * @return {RegExp}
-#   */
-def sanitizeRule (rule):
-  if isinstance(rule, str):
-    return re.compile('(?i)^' + rule + '$')
-
-  return rule
-
-# /**
-#   * Pass in a word token to produce a function that can replicate the case on
-#   * another word.
-#   *
-#   * @param  {string}   word
-#   * @param  {string}   token
-#   * @return {Function}
-#   */
-def restoreCase (word, token):
-  # Tokens are an exact match.
-  if word == token:
-    return token
-
-  # Lower cased words. E.g. "hello".
-  if (word == word.lower()):
-    return token.lower()
-
-  # Upper cased words. E.g. "WHISKY".
-  if (word == word.upper()):
-    return token.upper()
-
-  # Title cased words. E.g. "Title".
-  if (word[0] == word[0].upper()):
-    return token[0].upper() + token[1:].lower()
-
-  # Lower cased words. E.g. "test".
-  return token.lower()
-
-# /**
-#   * Interpolate a regexp string.
-#   *
-#   * @param  {string} str
-#   * @param  {Array}  args
-#   * @return {string}
-#   */
-
-def interpolate (s, match):
-  def replace_rest(sub_match):
-    return match.group(int(sub_match.group(1))) or ''
-  return re.sub(r'\$(\d{1,2})', replace_rest, s)
-
-# /**
-#   * Replace a word using a rule.
-#   *
-#   * @param  {string} word
-#   * @param  {Array}  rule
-#   * @return {string}
-#   */
-def replace (word, rule):
-  def replace_(match):
-    result = interpolate(rule[1], match)
-
-    matched_start, matched_end = match.span()
-    if matched_end == matched_start:
-      return restoreCase(word[matched_start - 1], result)
-
-    return restoreCase(match.group(0), result)
-    
-  return rule[0].sub(replace_, word, 1)
-
-# /**
-#   * Sanitize a word by passing in the word and sanitization rules.
-#   *
-#   * @param  {string}   token
-#   * @param  {string}   word
-#   * @param  {Array}    rules
-#   * @return {string}
-#   */
-def sanitizeWord (token, word, rules):
-  # Empty string or doesn't need fixing.
-  if ((not token) or token in uncountables):
-    return word
-
-  # Iterate over the sanitization rules and use the first one to match.
-  for rule in reversed(rules):
-    if rule[0].search(word):
-      return replace(word, rule)
-      
-  return word
-
-# /**
-#   * Replace a word with the updated word.
-#   *
-#   * @param  {Object}   replaceMap
-#   * @param  {Object}   keepMap
-#   * @param  {Array}    rules
-#   * @return {Function}
-#   */
-def replaceWord (replaceMap, keepMap, rules):
-  def fun(word):
-    # Get the correct token and case restoration functions.
-    token = word.lower()
-
-    # Check against the keep object map.
-    if (token in keepMap):
-      return restoreCase(word, token)
-
-    # Check against the replacement map for a direct word replacement.
-    if (token in replaceMap):
-      return restoreCase(word, replaceMap[token])
-
-    # Run all the rules against the word.
-    return sanitizeWord(token, word, rules)
-
-  return fun
-
-# /**
-#   * Check if a word is part of the map.
-#   */
-def checkWord (replaceMap, keepMap, rules):
-  def fun(word):
-    token = word.lower()
-
-    if (token in keepMap):
-      return True
-    if (token in replaceMap):
-      return False
-
-    return sanitizeWord(token, token, rules) == token
-  
-  return fun
-
-# /**
-#   * Pluralize or singularize a word based on the passed in count.
-#   *
-#   * @param  {string}  word      The word to pluralize
-#   * @param  {number}  count     How many of the word exist
-#   * @param  {boolean} inclusive Whether to prefix with the number (e.g. 3 ducks)
-#   * @return {string}
-#   */
-# def pluralize (word, count, inclusive) {
-#   pluralized = count == 1
-#     ? pluralize.singular(word) : pluralize.plural(word)
-
-#   return (inclusive ? count + ' ' : '') + pluralized
-# }
-
-
-  # /**
-  #  * Pluralize a word.
-  #  *
-  #  * @type {Function}
-  #  */
-plural = replaceWord(irregularSingles, irregularPlurals, pluralRules)
-
-  # /**
-  #  * Check if a word is plural.
-  #  *
-  #  * @type {Function}
-  #  */
-isPlural = checkWord(irregularSingles, irregularPlurals, pluralRules)
-
-singular = replaceWord(irregularPlurals, irregularSingles, singularRules)
-
-# /**
-#   * Check if a word is singular.
-#   *
-#   * @type {Function}
-#   */
-isSingular = checkWord(irregularPlurals, irregularSingles, singularRules)
-
-# /**
-#   * Add a pluralization rule to the collection.
-#   *
-#   * @param {(string|RegExp)} rule
-#   * @param {string}          replacement
-#   */
-def addPluralRule(rule, replacement):
-  pluralRules.append([sanitizeRule(rule), replacement])
-
-# /**
-#   * Add a singularization rule to the collection.
-#   *
-#   * @param {(string|RegExp)} rule
-#   * @param {string}          replacement
-#   */
-def addSingularRule(rule, replacement):
-  singularRules.append([sanitizeRule(rule), replacement])
-
-# /**
-#   * Add an uncountable word rule.
-#   *
-#   * @param {(string|RegExp)} word
-#   */
-def addUncountableRule(word):
-  if isinstance(word, str):
-    uncountables[word.lower()] = True
-    return
-
-  # Set singular and plural references for the word.
-  addPluralRule(word, '$0')
-  addSingularRule(word, '$0')
-
-# /**
-#   * Add an irregular word definition.
-#   *
-#   * @param {string} single
-#   * @param {string} plural
-#   */
-def addIrregularRule(single, plural):
-  plural = plural.lower()
-  single = single.lower()
-
-  irregularSingles[single] = plural
-  irregularPlurals[plural] = single
-
 # /**
 #   * Irregular rules.
 #   */
@@ -284,9 +58,6 @@ irregular_rules = [
   ['passerby', 'passersby']
 ]
 
-for rule in irregular_rules:
-  addIrregularRule(rule[0], rule[1])
-
 # /**
 #   * Pluralization rules.
 #   */
@@ -319,9 +90,6 @@ pluralization_rules = [
   ['thou', 'you']
 ]
 
-for rule in pluralization_rules:
-  addPluralRule(rule[0], rule[1])
-
 # /**
 #   * Singularization rules.
 #   */
@@ -351,9 +119,6 @@ singularization_rules = [
   [re.compile(r'(?i)(eau)x?$'), '$1'],
   [re.compile(r'(?i)men$'), 'man']
 ]
-
-for rule in singularization_rules:
-  addSingularRule(rule[0], rule[1])
 
 # /**
 #   * Uncountable rules.
@@ -463,5 +228,3 @@ uncountable_rules = [
   re.compile(r'(?i)pox$'), # "chickpox", "smallpox"
   re.compile(r'(?i)sheep$')
 ]
-for rule in uncountable_rules:
-  addUncountableRule(rule)

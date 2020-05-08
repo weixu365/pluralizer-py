@@ -1,6 +1,8 @@
 
 import unittest
-import pluralize
+from pluralizer import Pluralizer
+import re
+
 # /**
 #  * Standard singular/plural matches.
 #  *
@@ -702,122 +704,83 @@ PLURAL_TESTS = [
 
 class TestPluralize(unittest.TestCase):
   def test_methods_plural(self):
+    pluralizer = Pluralizer()
     for test in [*BASIC_TESTS, *PLURAL_TESTS]:
-      self.assertEqual(pluralize.plural(test[0]), test[1])
+      self.assertEqual(pluralizer.plural(test[0]), test[1])
 
   def test_methods_is_plural(self):
+    pluralizer = Pluralizer()
     for test in [*BASIC_TESTS, *PLURAL_TESTS]:
-      self.assertTrue(pluralize.isPlural(test[1]), f"isPlural('{test[1]}')")
+      self.assertTrue(pluralizer.isPlural(test[1]), f"isPlural('{test[1]}')")
 
   def test_methods_singular(self):
+    pluralizer = Pluralizer()
     for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
       try:
-        self.assertEqual(pluralize.singular(test[1]), test[0])
+        self.assertEqual(pluralizer.singular(test[1]), test[0])
       except:
         print(f"failed to check {test[1]}")
 
   def test_methods_is_singular(self):
+    pluralizer = Pluralizer()
     for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
-      self.assertTrue(pluralize.isSingular(test[0]))
+      self.assertTrue(pluralizer.isSingular(test[0]))
 
-  # describe('automatically convert', function () {
-  #   describe('plural', function () {
-  #     [*BASIC_TESTS, *PLURAL_TESTS].forEach(function (test) {
-  #       # Make sure the word stays pluralized.
-  #       it('5 ' + test[1] + ' -> ' + test[1], function () {
-  #         expect(pluralize(test[1], 5)).to.equal(test[1]);
-  #       });
+  def test_automatically_convert_plural(self):
+    pluralizer = Pluralizer()
+    for test in [*BASIC_TESTS, *PLURAL_TESTS]:
+      self.assertEqual(pluralizer.pluralize(test[1], 5), test[1])
+      self.assertEqual(pluralizer.pluralize(test[0], 5), test[1])
+      
+  def test_automatically_convert_singular(self):
+    pluralizer = Pluralizer()
+    for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
+      self.assertEqual(pluralizer.pluralize(test[0], 1), test[0])
+      self.assertEqual(pluralizer.pluralize(test[1], 1), test[0])
+      
+  def test_prepend_count_plural_words(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.pluralize('test', 5, True), '5 tests')
+      
+  def test_prepend_count_singular_words(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.pluralize('test', 1, True), '1 test')
+      
+  def test_add_new_uncountable_rules(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.pluralize('paper'), 'papers')
+    pluralizer.addUncountableRule('paper')
+    self.assertEqual(pluralizer.pluralize('paper'), 'paper')
+      
+  def test_add_new_irregular_words(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.pluralize('irregular'), 'irregulars')
+    pluralizer.addIrregularRule('irregular', 'regular')
+    self.assertEqual(pluralizer.pluralize('irregular'), 'regular')
+      
+  def test_add_new_plural_matching_rules(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.plural('regex'), 'regexes')
+    pluralizer.addPluralRule(re.compile(r'(?i)gex$'), 'gexii')
+    self.assertEqual(pluralizer.plural('regex'), 'regexii')
 
-  #       # Make sure the word becomes a plural.
-  #       if (test[0] !== test[1]) {
-  #         it('5 ' + test[0] + ' -> ' + test[1], function () {
-  #           expect(pluralize(test[0], 5)).to.equal(test[1]);
-  #         });
-  #       }
-  #     });
-  #   });
+  def test_add_new_singular_matching_rules(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.singular('singles'), 'single')
+    pluralizer.addSingularRule(re.compile('singles$'), 'singular')
+    self.assertEqual(pluralizer.singular('singles'), 'singular')
 
-  #   describe('singular', function () {
-  #     [*BASIC_TESTS, SINGULAR_TESTS].forEach(function (test) {
-  #       # Make sure the word stays singular.
-  #       it('1 ' + test[0] + ' -> ' + test[0], function () {
-  #         expect(pluralize(test[0], 1)).to.equal(test[0]);
-  #       });
+  def test_allow_new_plural_matching_rules_to_be_strings(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.plural('person'), 'people')
+    pluralizer.addPluralRule('person', 'peeps')
+    self.assertEqual(pluralizer.plural('person'), 'peeps')
 
-  #       # Make sure the word becomes singular.
-  #       if (test[0] !== test[1]) {
-  #         it('1 ' + test[1] + ' -> ' + test[0], function () {
-  #           expect(pluralize(test[1], 1)).to.equal(test[0]);
-  #         });
-  #       }
-  #     });
-  #   });
-  # });
-
-  # describe('prepend count', function () {
-  #   it('plural words', function () {
-  #     expect(pluralize('test', 5, true)).to.equal('5 tests');
-  #   });
-
-  #   it('singular words', function () {
-  #     expect(pluralize('test', 1, true)).to.equal('1 test');
-  #   });
-  # });
-
-  # def test_add_new_uncountable_rules(self):
-  #     expect(pluralize('paper')).to.equal('papers');
-
-  #     pluralize.addUncountableRule('paper');
-
-  #     expect(pluralize('paper')).to.equal('paper');
-
-  # describe('adding new rules', function () {
-  #   it('uncountable rules', function () {
-  #     expect(pluralize('paper')).to.equal('papers');
-
-  #     pluralize.addUncountableRule('paper');
-
-  #     expect(pluralize('paper')).to.equal('paper');
-  #   });
-
-  #   it('should allow new irregular words', function () {
-  #     expect(pluralize('irregular')).to.equal('irregulars');
-
-  #     pluralize.addIrregularRule('irregular', 'regular');
-
-  #     expect(pluralize('irregular')).to.equal('regular');
-  #   });
-
-  #   it('should allow new plural matching rules', function () {
-  #     expect(pluralize.plural('regex')).to.equal('regexes');
-
-  #     pluralize.addPluralRule(/gex$/i, 'gexii');
-
-  #     expect(pluralize.plural('regex')).to.equal('regexii');
-  #   });
-
-  def should_allow_new_singular_matching_rules(self):
-    expect(pluralize.singular('singles')).to.equal('single')
-
-    pluralize.addSingularRule(re.compile('singles$'), 'singular')
-
-    expect(pluralize.singular('singles')).to.equal('singular')
-
-    # it('should allow new plural matching rules to be strings', function () {
-    #   expect(pluralize.plural('person')).to.equal('people');
-
-    #   pluralize.addPluralRule('person', 'peeps');
-
-    #   expect(pluralize.plural('person')).to.equal('peeps');
-    # });
-
-  def should_allow_new_singular_matching_rules_to_be_strings(self):
-    expect(pluralize.singular('mornings')).to.equal('morning')
-
-    pluralize.addSingularRule('mornings', 'suck')
-
-    expect(pluralize.singular('mornings')).to.equal('suck')
-
+  def test_allow_new_singular_matching_rules_to_be_strings(self):
+    pluralizer = Pluralizer()
+    self.assertEqual(pluralizer.singular('mornings'), 'morning')
+    pluralizer.addSingularRule('mornings', 'suck')
+    self.assertEqual(pluralizer.singular('mornings'), 'suck')
 
 if __name__ == '__main__':
   unittest.main()
