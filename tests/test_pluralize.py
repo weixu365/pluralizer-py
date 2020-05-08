@@ -3,11 +3,10 @@ import unittest
 from pluralizer import Pluralizer
 import re
 
-# /**
-#  * Standard singular/plural matches.
-#  *
-#  * @type {Array}
-#  */
+# Standard singular/plural matches.
+# 
+# @type {Array}
+
 BASIC_TESTS = [
   # Uncountables.
   ['firmware', 'firmware'],
@@ -672,11 +671,11 @@ BASIC_TESTS = [
   ['oDonald', 'oDonalds']
 ]
 
-# /**
-#  * Odd plural to singular tests.
-#  *
-#  * @type {Array}
-#  */
+# 
+# Odd plural to singular tests.
+# 
+# @type {Array}
+# 
 SINGULAR_TESTS = [
   ['dingo', 'dingos'],
   ['mango', 'mangoes'],
@@ -687,11 +686,11 @@ SINGULAR_TESTS = [
   ['seraph', 'seraphs']
 ]
 
-# /**
-#  * Odd singular to plural tests.
-#  *
-#  * @type {Array}
-#  */
+# 
+# Odd singular to plural tests.
+# 
+# @type {Array}
+# 
 PLURAL_TESTS = [
   ['plateaux', 'plateaux'],
   ['axis', 'axes'],
