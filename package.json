@@ -1,0 +1,28 @@
+{
+  "name": "pluralize-py",
+  "version": "1.0.0",
+  "description": "This repo is simply a Python port of https://github.com/blakeembrey/pluralize which has > 1.4m github usages and 3.5 million downloads per week when I evaluating different libraries.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@semantic-release/exec": "^5.0.0",
+    "semantic-release": "^17.0.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weixu365/pluralizer-py.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weixu365/pluralizer-py/issues"
+  },
+  "homepage": "https://github.com/weixu365/pluralizer-py#readme"
+}
