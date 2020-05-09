@@ -9,6 +9,7 @@ test:
 	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html
 
 publish:
+	npm install
 	npx semantic-release
 
 # The following two tasks are executed from semantic-release process
