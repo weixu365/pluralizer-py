@@ -1,5 +1,5 @@
 import re
-from pluralizer_rules import irregular_rules, pluralization_rules, singularization_rules, uncountable_rules
+from .pluralizer_rules import irregular_rules, pluralization_rules, singularization_rules, uncountable_rules
 
 class Pluralizer:
   """This module uses a pre-defined list of rules, applied in order, to singularize or pluralize a given word. 
