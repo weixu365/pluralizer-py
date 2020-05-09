@@ -753,6 +753,12 @@ class TestPluralize(unittest.TestCase):
     self.assertEqual(pluralizer.pluralize('irregular'), 'irregulars')
     pluralizer.addIrregularRule('irregular', 'regular')
     self.assertEqual(pluralizer.pluralize('irregular'), 'regular')
+
+  def test_return_false_for_irregular_words(self):
+    pluralizer = Pluralizer()
+    self.assertTrue(pluralizer.isPlural('irregulars'))
+    pluralizer.addIrregularRule('irregulars', 'regular')
+    self.assertFalse(pluralizer.isPlural('irregulars'))
       
   def test_add_new_plural_matching_rules(self):
     pluralizer = Pluralizer()

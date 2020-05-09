@@ -1,8 +1,7 @@
 
 test:
-	python -m unittest -v tests/test_*.py
+	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html
 
 publish:
-	pip install python-semantic-release
 	semantic-release publish
 	
