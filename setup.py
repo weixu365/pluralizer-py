@@ -1,14 +1,20 @@
 from setuptools import setup
 from os import path
+import os
 
 root = path.abspath(path.dirname(__file__))
 with open(path.join(root, 'README.md'), encoding='utf-8') as f:
   long_description = f.read()
 
+version = os.getenv("PYPI_VERSION")
+
+if not version:
+  raise Exception("PYPI_VERSION not defined")
+
 setup(
   name = 'pluralizer',
   packages = ['pluralizer'],
-  version = '0.1.0',
+  version = version,
   platforms='any',
   license='MIT',
   description = 'Singularize or pluralize a given word useing a pre-defined list of rules',

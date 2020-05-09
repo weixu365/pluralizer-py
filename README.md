@@ -1,5 +1,5 @@
 ## Why this project?
-This repo is simply a Python port of https://github.com/blakeembrey/pluralize which has > 1.4m usages and 340k downloads per week when I evaluating different libraries.
+This repo is simply a Python port of https://github.com/blakeembrey/pluralize which has > 1.4m github usages and 3.5 million downloads per week when I evaluating different libraries.
 
 > This module uses a pre-defined list of rules, applied in order, to singularize or pluralize a given word. There are many cases where this is useful, such as any automation based on user input. For applications where the word(s) are known ahead of time, you can use a simple ternary (or function) which would be a much lighter alternative.
 
