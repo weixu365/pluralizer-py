@@ -1,8 +1,8 @@
 import re
 
-# /**
-#   * Irregular rules.
-#   */
+# 
+# Irregular rules.
+# 
 irregular_rules = [
   # Pronouns.
   ['I', 'we'],
