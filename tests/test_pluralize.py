@@ -715,10 +715,7 @@ class TestPluralize(unittest.TestCase):
   def test_methods_singular(self):
     pluralizer = Pluralizer()
     for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
-      try:
-        self.assertEqual(pluralizer.singular(test[1]), test[0])
-      except:
-        print(f"failed to check {test[1]}")
+      self.assertEqual(pluralizer.singular(test[1]), test[0])
 
   def test_methods_is_singular(self):
     pluralizer = Pluralizer()
