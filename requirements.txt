@@ -1,5 +1,8 @@
 coverage==5.1
 
+# Styles
+flake8==3.7.9
+
 # Publish to pypi
 setuptools==46.1.3
 wheel==0.34.2
