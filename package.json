@@ -8,8 +8,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@semantic-release/exec": "^5.0.0",
-    "semantic-release": "^17.0.7"
+    "@semantic-release/exec": "5.0.0",
+    "semantic-release": "17.0.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
