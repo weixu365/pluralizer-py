@@ -3,7 +3,7 @@ from .pluralizer_rules import irregular_rules, pluralization_rules, singularizat
 
 
 class Pluralizer:
-    """This module uses a pre-defined list of rules, applied in order, to singularize or pluralize a given word. 
+    """This module uses a pre-defined list of rules, applied in order, to singularize or pluralize a given word.
     There are many cases where this is useful, such as any automation based on user input.
 
     Usage:
