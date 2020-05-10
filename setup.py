@@ -22,7 +22,7 @@ setup(
   long_description_content_type='text/markdown',
   author = 'Wei Xu',
   url = 'https://github.com/weixu365/pluralizer-py',
-  python_requires='>=3',
+  python_requires='>=3.6',
   keywords = ['pluralize', 'singularize', 'singular', 'plural'],
   classifiers=[
     'Development Status :: 5 - Production/Stable',
