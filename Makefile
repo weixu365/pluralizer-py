@@ -12,7 +12,7 @@ style:
 	flake8 pluralizer tests --count --statistics
 
 test:
-	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html && coverage report
+	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html && coverage report --fail-under=100
 
 publish:
 	npm install
