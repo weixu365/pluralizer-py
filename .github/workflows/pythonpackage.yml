@@ -55,3 +55,5 @@ jobs:
       - run: make publish
         env:
           CI: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
