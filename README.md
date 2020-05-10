@@ -1,7 +1,7 @@
 [![PyPI](https://img.shields.io/pypi/v/pluralizer?style=plastic)](https://pypi.org/project/pluralizer/)
 [![Codecov](https://img.shields.io/codecov/c/github/weixu365/pluralizer-py?style=plastic)](https://codecov.io/gh/weixu365/pluralizer-py)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/weixu365/pluralizer-py/Python%20package?style=plastic)](https://github.com/weixu365/pluralizer-py/actions?query=branch%3Amaster)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/pluralizer?style=plastic)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/pluralizer?style=plastic)](https://pypistats.org/packages/pluralizer)
 
 ## Why this project?
 This repo is simply a Python port of https://github.com/blakeembrey/pluralize which has > 1.4m github usages and 3.5 million downloads per week when I evaluating different libraries.
