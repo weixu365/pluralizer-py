@@ -4,7 +4,7 @@ coverage==5.5
 flake8==3.9.2
 
 # Publish to pypi
-setuptools==56.2.0
+setuptools==57.0.0
 wheel==0.36.2
 twine==3.4.1
-commitizen==2.17.6
+commitizen==2.17.11
