@@ -62,7 +62,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
       - run: make publish
         env:
           CI: true
