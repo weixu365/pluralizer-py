@@ -1,10 +1,10 @@
-coverage==6.0.2
+coverage==6.2
 
 # Styles
 flake8==4.0.1
 
 # Publish to pypi
 setuptools==58.2.0
-wheel==0.37.0
-twine==3.4.2
-commitizen==2.20.0
+wheel==0.37.1
+twine==3.7.1
+commitizen==2.20.3
