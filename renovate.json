@@ -8,18 +8,7 @@
     "python": "3.6"
   },
   "recreateClosed": true,
-  "packageRules": [
-    {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
-    },
-    {
-      "matchDatasources": ["npm"],
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
-    }
-  ]
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true
 }
