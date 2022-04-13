@@ -16,7 +16,7 @@
       "platformAutomerge": true
     },
     {
-      "matchPaths": ["package.json"],
+      "matchDatasources": ["npm"],
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true
