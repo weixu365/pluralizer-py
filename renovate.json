@@ -1,9 +1,18 @@
 {
   "extends": [
     "config:base",
-    "group:all"
+    "group:all",
+    ":disableDependencyDashboard"
   ],
   "constraints": {
     "python": "3.6"
-  }
+  },
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ]
 }
