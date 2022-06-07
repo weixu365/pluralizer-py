@@ -8,7 +8,7 @@ This repo is simply a Python port of https://github.com/blakeembrey/pluralize wh
 
 > This module uses a pre-defined list of rules, applied in order, to singularize or pluralize a given word. There are many cases where this is useful, such as any automation based on user input. For applications where the word(s) are known ahead of time, you can use a simple ternary (or function) which would be a much lighter alternative.
 
-I have compared the following alternatives, and found https://github.com/blakeembrey/pluralize is the best one for me (most accurate), so ported it into Python world.
+I have compared the following alternatives and found https://github.com/blakeembrey/pluralize is the best one for me (most accurate), so ported it into the Python world.
 - TextBlob: https://github.com/sloria/TextBlob
 - inflect: https://github.com/jazzband/inflect
 - NLTK Wordnet: https://www.nltk.org/howto/wordnet.html
