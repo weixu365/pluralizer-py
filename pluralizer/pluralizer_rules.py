@@ -21,6 +21,10 @@ irregular_rules = [
     ['has', 'have'],
     ['this', 'these'],
     ['that', 'those'],
+    ['my', 'our'],
+    ['its', 'their'],
+    ['his', 'their'],
+    ['her', 'their'],
     # Words ending in with a consonant and `o`.
     ['echo', 'echoes'],
     ['dingo', 'dingoes'],
@@ -55,7 +59,8 @@ irregular_rules = [
     ['thief', 'thieves'],
     ['groove', 'grooves'],
     ['pickaxe', 'pickaxes'],
-    ['passerby', 'passersby']
+    ['passerby', 'passersby'],
+    ['canvas', 'canvases'],
 ]
 
 # /**

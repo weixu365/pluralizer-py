@@ -698,7 +698,8 @@ PLURAL_TESTS = [
     ['automatum', 'automata'],
     ['thou', 'you'],
     ['axiS', 'axes'],
-    ['passerby', 'passersby']
+    ['passerby', 'passersby'],
+    ['canvas', 'canvases'],
 ]
 
 
