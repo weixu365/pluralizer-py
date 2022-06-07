@@ -59,7 +59,8 @@ irregular_rules = [
     ['thief', 'thieves'],
     ['groove', 'grooves'],
     ['pickaxe', 'pickaxes'],
-    ['passerby', 'passersby']
+    ['passerby', 'passersby'],
+    ['canvas', 'canvases'],
 ]
 
 # /**
