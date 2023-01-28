@@ -22,7 +22,7 @@ setup(
   long_description_content_type='text/markdown',
   author = 'Wei Xu',
   url = 'https://github.com/weixu365/pluralizer-py',
-  python_requires='>=3.6',
+  python_requires='>=3.7',
   keywords = ['pluralize', 'singularize', 'singular', 'plural'],
   classifiers=[
     'Development Status :: 5 - Production/Stable',
@@ -30,6 +30,6 @@ setup(
     'Topic :: Software Development :: Libraries :: Python Modules',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
   ],
 )
