@@ -1,8 +1,7 @@
 {
   "extends": [
     "config:base",
-    "group:all",
-    ":disableDependencyDashboard"
+    "group:all"
   ],
   "constraints": {
     "python": "3.7"
