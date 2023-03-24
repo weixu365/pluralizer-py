@@ -1,6 +1,6 @@
 [![PyPI](https://img.shields.io/pypi/v/pluralizer?style=plastic)](https://pypi.org/project/pluralizer/)
 [![Codecov](https://img.shields.io/codecov/c/github/weixu365/pluralizer-py?style=plastic)](https://codecov.io/gh/weixu365/pluralizer-py)
-[![GitHub Workflow Status](https://github.com/weixu365/pluralizer-py/actions/workflows/build.yml/badge.svg)](https://github.com/weixu365/pluralizer-py/actions)
+[![GitHub Workflow Status](https://github.com/weixu365/pluralizer-py/actions/workflows/pythonpackage.yml/badge.svg)]([https://github.com/weixu365/pluralizer-py/actions/workflows/pythonpackage.yml/badge.svg](https://github.com/weixu365/pluralizer-py/actions))
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pluralizer?style=plastic)](https://pypistats.org/packages/pluralizer)
 
 ## Why this project?
