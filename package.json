@@ -9,7 +9,7 @@
   "dependencies": {},
   "devDependencies": {
     "@semantic-release/exec": "6.0.3",
-    "semantic-release": "22.0.6"
+    "semantic-release": "22.0.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
