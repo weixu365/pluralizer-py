@@ -25,7 +25,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Unit tests
       run: |
-        make style test
+        make lint test
     - name: Upload Test Coverage Reports
       uses: actions/upload-artifact@v4
       with:
@@ -47,7 +47,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Unit tests
         run: |
-          make style test
+          make lint test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
