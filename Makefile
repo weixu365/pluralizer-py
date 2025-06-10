@@ -27,6 +27,7 @@ format:
 	. .venv/bin/activate \
 		&& uv run -- ruff check --fix . \
 		&& uv run -- ruff format .
+		
 test:
 	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html && coverage xml && coverage report --fail-under=100
 
