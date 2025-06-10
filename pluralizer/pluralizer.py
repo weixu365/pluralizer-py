@@ -3,10 +3,10 @@ from typing import Tuple
 
 from .pluralizer_rules import irregular_rules, pluralization_rules, singularization_rules, uncountable_rules
 
-type IrregularSingles = dict[str, str]
-type IrregularPlurals = dict[str, str]
-type SingularRule = Tuple[re.Pattern[str], str]
-type PluralRule = Tuple[re.Pattern[str], str]
+IrregularSingles = dict[str, str]
+IrregularPlurals = dict[str, str]
+SingularRule = Tuple[re.Pattern[str], str]
+PluralRule = Tuple[re.Pattern[str], str]
 
 
 class Pluralizer:
@@ -174,7 +174,7 @@ class Pluralizer:
     def plural(self, word: str) -> str:
         """Pluralize a word."""
         return self._replace_word(self.irregularSingles, self.irregularPlurals, self.pluralRules, word)
-    
+
     def is_plural(self, word: str) -> bool:
         """Check if a word is plural."""
         return self._check_word(self.irregularSingles, self.irregularPlurals, self.pluralRules, word)
@@ -182,7 +182,7 @@ class Pluralizer:
     def singular(self, word: str) -> str:
         """Singular a word."""
         return self._replace_word(self.irregularPlurals, self.irregularSingles, self.singularRules, word)
-    
+
     def is_singular(self, word: str):
         """Check if a word is singular."""
         return self._check_word(self.irregularPlurals, self.irregularSingles, self.singularRules, word)
