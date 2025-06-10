@@ -5,14 +5,32 @@ guard-%:
 			exit 1; \
 	fi
 
-style:
-	# stop the build if there are Python syntax errors or undefined names
-	flake8 pluralizer tests --count --select=E9,F63,F7,F82 --show-source --statistics
-	# exit-zero treats all errors as warnings.
-	flake8 pluralizer tests --count --statistics
+install-uv:
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+
+venv:
+	uv venv -p python3.10
+
+install-deps:
+	uv sync -p python3.10
+
+lint:
+	. .venv/bin/activate \
+		&& .venv/bin/ec \
+		&& .venv/bin/ruff check . \
+		&& .venv/bin/ruff format --check . \
+		&& .venv/bin/pyright
+
+format:
+	. .venv/bin/activate \
+		&& .venv/bin/ruff check --fix . \
+		&& .venv/bin/ruff format .
 
 test:
-	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html && coverage xml && coverage report --fail-under=100
+	.venv/bin/coverage run --omit tests/*.py -m unittest -v tests/test_*.py \
+	&& .venv/bin/coverage html \
+	&& .venv/bin/coverage xml \
+	&& .venv/bin/coverage report --fail-under=100
 
 publish:
 	npm install
@@ -24,4 +42,4 @@ package: guard-PYPI_VERSION
 	python setup.py sdist bdist_wheel
 
 publish-pypi: package guard-PYPI_TOKEN
-	twine upload -u '__token__' -p '$(PYPI_TOKEN)' --skip-existing dist/*
+	.venv/bin/twine upload -u '__token__' -p '$(PYPI_TOKEN)' --skip-existing dist/*

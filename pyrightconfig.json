@@ -1,0 +1,25 @@
+{
+  "include": [
+    "pluralizer",
+    "tests",
+  ],
+  
+  "ignore": [
+    ".venv",
+    "setup.py",
+  ],
+
+  "typeCheckingMode": "strict",
+
+  // Enable rules that disabled by default: https://microsoft.github.io/pyright/#/configuration?id=diagnostic-settings-defaults
+  "reportCallInDefaultInitializer": true,
+  "reportImplicitOverride": true,
+  "reportImplicitStringConcatenation": true,
+  "reportImportCycles": true,
+  "reportMissingSuperCall": true,
+  "reportPropertyTypeMismatch": true,
+  "reportShadowedImports": true,
+  "reportUninitializedInstanceVariable": true,
+  "reportUnnecessaryTypeIgnoreComment": true,
+  "reportUnusedCallResult": true,
+}
