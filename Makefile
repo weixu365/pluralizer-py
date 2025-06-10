@@ -27,7 +27,10 @@ format:
 		&& .venv/bin/ruff format .
 
 test:
-	coverage run --omit tests/*.py -m unittest -v tests/test_*.py && coverage html && coverage xml && coverage report --fail-under=100
+	.venv/bin/coverage run --omit tests/*.py -m unittest -v tests/test_*.py \
+	&& .venv/bin/coverage html \
+	&& .venv/bin/coverage xml \
+	&& .venv/bin/coverage report --fail-under=100
 
 publish:
 	npm install
@@ -39,4 +42,4 @@ package: guard-PYPI_VERSION
 	python setup.py sdist bdist_wheel
 
 publish-pypi: package guard-PYPI_TOKEN
-	twine upload -u '__token__' -p '$(PYPI_TOKEN)' --skip-existing dist/*
+	.venv/bin/twine upload -u '__token__' -p '$(PYPI_TOKEN)' --skip-existing dist/*
