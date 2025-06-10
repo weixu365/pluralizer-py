@@ -6,6 +6,7 @@
   
   "ignore": [
     ".venv",
+    "setup.py",
   ],
 
   "typeCheckingMode": "strict",

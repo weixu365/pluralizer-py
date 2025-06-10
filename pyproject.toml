@@ -1,7 +1,8 @@
 [project]
 name = "pluralizer-py"
 version = "0.1.0"
-description = "Add your description here"
+description = "Singularize or pluralize a given word useing a pre-defined list of rules"
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
@@ -19,7 +20,6 @@ dev = [
 ]
 
 [tool.ruff]
-exclude = ["evaluation"]
 line-length = 120
 
 [tool.ruff.lint]
@@ -27,7 +27,6 @@ line-length = 120
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = ["F", "I", "E", "W"]
-ignore = ["W293"]
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 unfixable = []
