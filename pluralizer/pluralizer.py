@@ -25,10 +25,10 @@ class Pluralizer:
         assert pluralizer.plural('apple') == 'apples'
         assert pluralizer.singular('apples') == 'apple'
 
-        assert pluralizer.isPlural('apples') == True
-        assert pluralizer.isPlural('apple') == False
-        assert pluralizer.isSingular('apples') == False
-        assert pluralizer.isSingular('apple') == True
+        assert pluralizer.is_plural('apples') == True
+        assert pluralizer.is_plural('apple') == False
+        assert pluralizer.is_singular('apples') == False
+        assert pluralizer.is_singular('apple') == True
     """
 
     def __init__(self):
@@ -43,25 +43,25 @@ class Pluralizer:
         self.irregularSingles: IrregularSingles = {}
 
         for single, plural in irregular_rules:
-            self.addIrregularRule(single, plural)
+            self.add_irregular_rule(single, plural)
 
         for pattern, replacement in pluralization_rules:
-            self.addPluralRule(pattern, replacement)
+            self.add_plural_rule(pattern, replacement)
 
         for pattern, replacement in singularization_rules:
-            self.addSingularRule(pattern, replacement)
+            self.add_singular_rule(pattern, replacement)
 
         for pattern in uncountable_rules:
-            self.addUncountableRule(pattern)
+            self.add_uncountable_rule(pattern)
 
-    def sanitizeRule(self, rule: str | re.Pattern[str]) -> re.Pattern[str]:
+    def _sanitize_rule(self, rule: str | re.Pattern[str]) -> re.Pattern[str]:
         """Sanitize a pluralization rule to a usable regular expression."""
         if isinstance(rule, str):
             return re.compile("(?i)^" + rule + "$")
 
         return rule
 
-    def restoreCase(self, word: str, token: str) -> str:
+    def _restore_case(self, word: str, token: str) -> str:
         """Pass in a word token to produce a function that can replicate the case on another word."""
         # Tokens are an exact match.
         if word == token:
@@ -82,7 +82,7 @@ class Pluralizer:
         # Lower cased words. E.g. "test".
         return token.lower()
 
-    def interpolate(self, s: str, match: re.Match[str]) -> str:
+    def _interpolate(self, s: str, match: re.Match[str]) -> str:
         """Interpolate a regexp string."""
 
         def replace_rest(sub_match: re.Match[str]):
@@ -90,21 +90,21 @@ class Pluralizer:
 
         return re.sub(r"\$(\d{1,2})", replace_rest, s)
 
-    def replace(self, word: str, pattern: re.Pattern[str], replacement: str) -> str:
+    def _replace(self, word: str, pattern: re.Pattern[str], replacement: str) -> str:
         """Replace a word using a rule."""
 
         def replace_(match: re.Match[str]) -> str:
-            result = self.interpolate(replacement, match)
+            result = self._interpolate(replacement, match)
 
             matched_start, matched_end = match.span()
             if matched_end == matched_start:
-                return self.restoreCase(word[matched_start - 1], result)
+                return self._restore_case(word[matched_start - 1], result)
 
-            return self.restoreCase(match.group(0), result)
+            return self._restore_case(match.group(0), result)
 
         return pattern.sub(replace_, word, 1)
 
-    def sanitizeWord(self, token: str, word: str, rules: list[SingularRule] | list[PluralRule]) -> str:
+    def _sanitize_word(self, token: str, word: str, rules: list[SingularRule] | list[PluralRule]) -> str:
         """Sanitize a word by passing in the word and sanitization rules."""
         # Empty string or doesn't need fixing.
         if (not token) or token in self.uncountables:
@@ -113,11 +113,11 @@ class Pluralizer:
         # Iterate over the sanitization rules and use the first one to match.
         for pattern, replacement in reversed(rules):
             if pattern.search(word):
-                return self.replace(word, pattern, replacement)
+                return self._replace(word, pattern, replacement)
 
         return word
 
-    def replaceWord(
+    def _replace_word(
         self,
         replaceMap: IrregularSingles | IrregularPlurals,
         keepMap: IrregularSingles | IrregularPlurals,
@@ -130,16 +130,16 @@ class Pluralizer:
 
         # Check against the keep object map.
         if token in keepMap:
-            return self.restoreCase(word, token)
+            return self._restore_case(word, token)
 
         # Check against the replacement map for a direct word replacement.
         if token in replaceMap:
-            return self.restoreCase(word, replaceMap[token])
+            return self._restore_case(word, replaceMap[token])
 
         # Run all the rules against the word.
-        return self.sanitizeWord(token, word, rules)
+        return self._sanitize_word(token, word, rules)
 
-    def checkWord(
+    def _check_word(
         self,
         replaceMap: IrregularSingles | IrregularPlurals,
         keepMap: IrregularSingles | IrregularPlurals,
@@ -154,7 +154,7 @@ class Pluralizer:
         if token in replaceMap:
             return False
 
-        return self.sanitizeWord(token, token, rules) == token
+        return self._sanitize_word(token, token, rules) == token
 
     def pluralize(self, word: str, count: int | None = None, inclusive: bool = False) -> str:
         """Pluralize or singularize a word based on the passed in count.
@@ -173,39 +173,39 @@ class Pluralizer:
 
     def plural(self, word: str) -> str:
         """Pluralize a word."""
-        return self.replaceWord(self.irregularSingles, self.irregularPlurals, self.pluralRules, word)
-
-    def isPlural(self, word: str) -> bool:
+        return self._replace_word(self.irregularSingles, self.irregularPlurals, self.pluralRules, word)
+    
+    def is_plural(self, word: str) -> bool:
         """Check if a word is plural."""
-        return self.checkWord(self.irregularSingles, self.irregularPlurals, self.pluralRules, word)
+        return self._check_word(self.irregularSingles, self.irregularPlurals, self.pluralRules, word)
 
     def singular(self, word: str) -> str:
         """Singular a word."""
-        return self.replaceWord(self.irregularPlurals, self.irregularSingles, self.singularRules, word)
-
-    def isSingular(self, word: str):
+        return self._replace_word(self.irregularPlurals, self.irregularSingles, self.singularRules, word)
+    
+    def is_singular(self, word: str):
         """Check if a word is singular."""
-        return self.checkWord(self.irregularPlurals, self.irregularSingles, self.singularRules, word)
+        return self._check_word(self.irregularPlurals, self.irregularSingles, self.singularRules, word)
 
-    def addPluralRule(self, rule: str | re.Pattern[str], replacement: str) -> None:
+    def add_plural_rule(self, rule: str | re.Pattern[str], replacement: str) -> None:
         """Add a pluralization rule to the collection."""
-        self.pluralRules.append((self.sanitizeRule(rule), replacement))
+        self.pluralRules.append((self._sanitize_rule(rule), replacement))
 
-    def addSingularRule(self, rule: str | re.Pattern[str], replacement: str) -> None:
+    def add_singular_rule(self, rule: str | re.Pattern[str], replacement: str) -> None:
         """Add a singularization rule to the collection."""
-        self.singularRules.append((self.sanitizeRule(rule), replacement))
+        self.singularRules.append((self._sanitize_rule(rule), replacement))
 
-    def addUncountableRule(self, word: str | re.Pattern[str]) -> None:
+    def add_uncountable_rule(self, word: str | re.Pattern[str]) -> None:
         """Add an uncountable word rule."""
         if isinstance(word, str):
             self.uncountables[word.lower()] = True
             return
 
         # Set singular and plural references for the word.
-        self.addPluralRule(word, "$0")
-        self.addSingularRule(word, "$0")
+        self.add_plural_rule(word, "$0")
+        self.add_singular_rule(word, "$0")
 
-    def addIrregularRule(self, single: str, plural: str) -> None:
+    def add_irregular_rule(self, single: str, plural: str) -> None:
         """Add an irregular word definition."""
         plural = plural.lower()
         single = single.lower()

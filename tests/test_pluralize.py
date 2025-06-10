@@ -712,7 +712,7 @@ class TestPluralize(unittest.TestCase):
     def test_methods_is_plural(self):
         pluralizer = Pluralizer()
         for test in [*BASIC_TESTS, *PLURAL_TESTS]:
-            self.assertTrue(pluralizer.isPlural(test[1]), f"isPlural('{test[1]}')")
+            self.assertTrue(pluralizer.is_plural(test[1]), f"isPlural('{test[1]}')")
 
     def test_methods_singular(self):
         pluralizer = Pluralizer()
@@ -722,7 +722,7 @@ class TestPluralize(unittest.TestCase):
     def test_methods_is_singular(self):
         pluralizer = Pluralizer()
         for test in [*BASIC_TESTS, *SINGULAR_TESTS]:
-            self.assertTrue(pluralizer.isSingular(test[0]))
+            self.assertTrue(pluralizer.is_singular(test[0]))
 
     def test_automatically_convert_plural(self):
         pluralizer = Pluralizer()
@@ -747,43 +747,43 @@ class TestPluralize(unittest.TestCase):
     def test_add_new_uncountable_rules(self):
         pluralizer = Pluralizer()
         self.assertEqual(pluralizer.pluralize("paper"), "papers")
-        pluralizer.addUncountableRule("paper")
+        pluralizer.add_uncountable_rule("paper")
         self.assertEqual(pluralizer.pluralize("paper"), "paper")
 
     def test_add_new_irregular_words(self):
         pluralizer = Pluralizer()
         self.assertEqual(pluralizer.pluralize("irregular"), "irregulars")
-        pluralizer.addIrregularRule("irregular", "regular")
+        pluralizer.add_irregular_rule("irregular", "regular")
         self.assertEqual(pluralizer.pluralize("irregular"), "regular")
 
     def test_return_false_for_irregular_words(self):
         pluralizer = Pluralizer()
-        self.assertTrue(pluralizer.isPlural("irregulars"))
-        pluralizer.addIrregularRule("irregulars", "regular")
-        self.assertFalse(pluralizer.isPlural("irregulars"))
+        self.assertTrue(pluralizer.is_plural("irregulars"))
+        pluralizer.add_irregular_rule("irregulars", "regular")
+        self.assertFalse(pluralizer.is_plural("irregulars"))
 
     def test_add_new_plural_matching_rules(self):
         pluralizer = Pluralizer()
         self.assertEqual(pluralizer.plural("regex"), "regexes")
-        pluralizer.addPluralRule(re.compile(r"(?i)gex$"), "gexii")
+        pluralizer.add_plural_rule(re.compile(r"(?i)gex$"), "gexii")
         self.assertEqual(pluralizer.plural("regex"), "regexii")
 
     def test_add_new_singular_matching_rules(self):
         pluralizer = Pluralizer()
         self.assertEqual(pluralizer.singular("singles"), "single")
-        pluralizer.addSingularRule(re.compile("singles$"), "singular")
+        pluralizer.add_singular_rule(re.compile("singles$"), "singular")
         self.assertEqual(pluralizer.singular("singles"), "singular")
 
     def test_allow_new_plural_matching_rules_to_be_strings(self):
         pluralizer = Pluralizer()
         self.assertEqual(pluralizer.plural("person"), "people")
-        pluralizer.addPluralRule("person", "peeps")
+        pluralizer.add_plural_rule("person", "peeps")
         self.assertEqual(pluralizer.plural("person"), "peeps")
 
     def test_allow_new_singular_matching_rules_to_be_strings(self):
         pluralizer = Pluralizer()
         self.assertEqual(pluralizer.singular("mornings"), "morning")
-        pluralizer.addSingularRule("mornings", "suck")
+        pluralizer.add_singular_rule("mornings", "suck")
         self.assertEqual(pluralizer.singular("mornings"), "suck")
 
 
