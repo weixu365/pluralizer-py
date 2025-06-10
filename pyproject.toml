@@ -2,7 +2,6 @@
 name = "pluralizer-py"
 version = "0.1.0"
 description = "Singularize or pluralize a given word useing a pre-defined list of rules"
-license = "MIT"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
