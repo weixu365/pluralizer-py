@@ -39,7 +39,8 @@ publish:
 # The following two tasks are executed from semantic-release process
 package: guard-PYPI_VERSION 
 	rm -rf dist
-	python setup.py sdist bdist_wheel
+	uv version --no-sync $$PYPI_VERSION
+	uv build
 
 publish-pypi: package guard-PYPI_TOKEN
-	.venv/bin/twine upload -u '__token__' -p '$(PYPI_TOKEN)' --skip-existing dist/*
+	UV_PUBLISH_TOKEN=$$PYPI_TOKEN uv publish

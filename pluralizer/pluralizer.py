@@ -17,10 +17,10 @@ class Pluralizer:
         from pluralizer import Pluralizer
         pluralizer = Pluralizer()
 
-        assert pluralizer.pluralize('apple', 1, false) == 'apple'
-        assert pluralizer.pluralize('apple', 1, true) == '1 apple'
-        assert pluralizer.pluralize('apple', 2, false) == 'apples'
-        assert pluralizer.pluralize('apple', 2, true) == '2 apples'
+        assert pluralizer.pluralize('apple', 1, False) == 'apple'
+        assert pluralizer.pluralize('apple', 1, True) == '1 apple'
+        assert pluralizer.pluralize('apple', 2, False) == 'apples'
+        assert pluralizer.pluralize('apple', 2, True) == '2 apples'
 
         assert pluralizer.plural('apple') == 'apples'
         assert pluralizer.singular('apples') == 'apple'
