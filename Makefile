@@ -9,10 +9,10 @@ install-uv:
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 
 venv:
-	uv venv -p python3.10
+	uv venv
 
 install-deps:
-	uv sync -p python3.10
+	uv sync
 
 lint:
 	. .venv/bin/activate \
