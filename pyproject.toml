@@ -41,6 +41,7 @@ dev = [
 
 [tool.uv]
 override-dependencies = [
+    "cryptography>=46.0.5",
     "urllib3>=2.6.3",
 ]
 
