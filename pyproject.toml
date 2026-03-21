@@ -39,6 +39,12 @@ dev = [
     "wheel>=0.46.3",
 ]
 
+[tool.uv]
+override-dependencies = [
+    "cryptography>=46.0.5",
+    "urllib3>=2.6.3",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["pluralizer"]
 
