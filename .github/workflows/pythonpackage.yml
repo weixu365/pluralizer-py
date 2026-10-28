@@ -54,7 +54,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
       - run: make publish
         env:
           CI: true
